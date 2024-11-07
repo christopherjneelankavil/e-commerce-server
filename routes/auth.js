@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const authRouter = express.Router();
+const jwt = require("jsonwebtoken");
 
 authRouter.post("/api/signup", async (req, res) => {
   try {
@@ -28,6 +29,26 @@ authRouter.post("/api/signup", async (req, res) => {
     res
       .status(500)
       .json({ message: "Internal Server Error", error: e.message });
+  }
+});
+
+authRouter.post("/api/signin", async(req,res)=>{
+  try {
+    const {email,password} = req.body;
+    const findUser = await User.findOne({email});
+
+    if(!findUser){
+      res.status(400).json({message:"Invalid Credentials, no user with this email found"});
+    }else{
+      const isMatch = await bcrypt.compare(password, findUser.password);
+      if(!isMatch){
+        res.status(400).json({message:"Invalid credentials, password is incorrect"});
+      }else{
+
+      }
+    }
+  } catch (error) {
+    
   }
 });
 
