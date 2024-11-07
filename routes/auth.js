@@ -37,6 +37,8 @@ authRouter.post("/api/signup", async (req, res) => {
   }
 });
 
+
+//sign in api
 authRouter.post("/api/signin", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -66,8 +68,8 @@ authRouter.post("/api/signin", async (req, res) => {
         res.json({ token, ...userWIthoutPassword });
       }
     }
-  } catch (error) {
-    
+  } catch (e) {
+    res.status(500).json({message:"Internal server eroor",error:e.message});
   }
 });
 
