@@ -20,7 +20,12 @@ authRouter.post("/api/signup", async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, salt);
 
       //return res.status(200).json({message:"Email is available"});
-      let user = new User({ fullname, username, email, password:hashedPassword });
+      let user = new User({
+        fullname,
+        username,
+        email,
+        password: hashedPassword,
+      });
       user = await user.save();
       res.json(user);
     }
@@ -32,19 +37,33 @@ authRouter.post("/api/signup", async (req, res) => {
   }
 });
 
-authRouter.post("/api/signin", async(req,res)=>{
+authRouter.post("/api/signin", async (req, res) => {
   try {
-    const {email,password} = req.body;
-    const findUser = await User.findOne({email});
+    const { email, password } = req.body;
+    const findUser = await User.findOne({ email });
 
-    if(!findUser){
-      res.status(400).json({message:"Invalid Credentials, no user with this email found"});
-    }else{
+    if (!findUser) {
+      res
+        .status(400)
+        .json({
+          message: "Invalid Credentials, no user with this email found",
+        });
+    } else {
       const isMatch = await bcrypt.compare(password, findUser.password);
-      if(!isMatch){
-        res.status(400).json({message:"Invalid credentials, password is incorrect"});
-      }else{
+      if (!isMatch) {
+        res
+          .status(400)
+          .json({ message: "Invalid credentials, password is incorrect" });
+      } else {
+        //create a token
+        const token = jwt.sign({ id: findUser._id }, "password");
 
+        //removing password from the user object to be returned to the client
+
+        const { password, ...userWIthoutPassword } = findUser._doc;
+
+        //return response with token and user object
+        res.json({ token, ...userWIthoutPassword });
       }
     }
   } catch (error) {
