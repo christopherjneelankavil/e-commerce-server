@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 //import authRouter from routes/auth.js
 const authRouter = require('./routes/auth');
 
-
+ 
 //use express json middleware
 app.use(express.json());
 
