@@ -4,7 +4,7 @@ const PORT = 3000;
 const app = express();
 const mongoose = require('mongoose');
 //import authRouter from routes/auth.js
-const authRouter = require('./routes/auth');
+const authRouter = require('./routes/auth'); 
 
  
 //use express json middleware
