@@ -12,7 +12,7 @@ app.use(express.json());
 
 //register endpoint
 app.use(authRouter);
-const DB = ""
+const DB = "mongodb+srv://christopherneelankavil:Cjn200380@cluster0.ufn5l.mongodb.net/"
 mongoose.connect(DB).then(()=>console.log('DB connection successful!')).catch(err=>console.log(err));
 
 app.listen(PORT,"0.0.0.0",function(){
