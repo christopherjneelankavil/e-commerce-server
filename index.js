@@ -1,7 +1,7 @@
 //import express module
 const express = require('express');
 const PORT = 3000;
-const app = express();
+const app = express(); 
 const mongoose = require('mongoose');
 //import authRouter from routes/auth.js
 const authRouter = require('./routes/auth'); 
